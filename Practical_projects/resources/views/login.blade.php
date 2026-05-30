@@ -98,6 +98,12 @@ document.documentElement.classList.add(themeMode);
     <button class="kt-btn bg-prime text-white flex justify-center grow" type="submit">
         Login
     </button>
+
+    <div class="text-center mt-2">
+    <span class="text-sm text-muted-foreground">Don't have an account?</span>
+    <a href="{{ route('register') }}" class="text-sm text-prime font-medium hover:underline ms-1">Register here</a>
+    
+</div>
 </form>
 </div>
 </body>

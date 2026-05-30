@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,24 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. تعطيل فحص المفاتيح الخارجية مؤقتًا
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        // 2. استدعاء جميع السيدرات في قائمة واحدة
-        // يفضل ترتيب السيدرات بحيث تعبأ الجداول الرئيسية أولاً (مثل الأقسام، أنواع الاتفاقيات)
-        // ثم الجداول التي تعتمد عليها (مثل المستخدمين، الاتفاقيات، المستندات، المؤسسات الشريكة)
-        $this->call([
-            DepartmentSeeder::class, // يجب أن يأتي قبل الجداول التي تعتمد عليه (مثل المستخدمين والاتفاقيات)
-            AgreementTypeSeeder::class, // يجب أن يأتي قبل الاتفاقيات
-            UserRoleSeeder::class,
-            PartnerInstitutionSeeder::class, // يمكن أن يأتي هنا أو بعد الاتفاقيات حسب الحاجة للعلاقة الثنائية
-            AgreementSeeder::class, // يعتمد على Departments و AgreementTypes
-            AgreementPartnerSeeder::class,
-            DocumentSeeder::class, // يعتمد على Agreements، لذا يجب أن يأتي بعده
-            StudentSeeder::class, // يمكن أن يكون ترتيبه هنا أو حسب اعتماداته
+        // 1. إنشاء مستخدم افتراضي ثابت ومضمون لتجربة تسجيل الدخول السريع
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => Hash::make('Password123!'), // كلمة مرور قوية للتجربة الأمنية
         ]);
 
-        // 3. إعادة تفعيل فحص المفاتيح الخارجية
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // 2. توليد 10 مستخدمين عشوائيين إضافيين عبر الـ Factory لتنويع البيانات
+        User::factory(10)->create();
     }
 }
