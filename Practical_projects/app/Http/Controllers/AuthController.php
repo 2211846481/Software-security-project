@@ -111,7 +111,7 @@ class AuthController extends Controller
         // التحقق من المدخلات لمنع ثغرات الرفع العشوائي والـ DoS Attack
         $request->validate([
             'comment_text' => 'required|string|max:1000',
-            'attachment'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // تقييد الامتدادات والحجم (2MB)
+            'attachment'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx|max:2048', // تقييد الامتدادات والحجم (2MB)
         ]);
 
         $comment = new Comment();
