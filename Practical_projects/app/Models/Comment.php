@@ -14,10 +14,7 @@ class Comment extends Model
         'file_mime_type',
         'file_size'
     ];
-
-    /**
-     * التعليق ينتمي إلى مستخدم واحد محدد
-     */
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

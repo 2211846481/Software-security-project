@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Comment; // 👈 تأكدي من استدعاء موديل التعليقات
-use App\Models\User;    // 👈 تأكدي من استدعاء موديل المستخدمين
-use Illuminate\Support\Facades\Hash; // 👈 لتشفير كلمات المرور بأمان
+use App\Models\Comment; 
+use App\Models\User;    
+use Illuminate\Support\Facades\Hash; 
 
 class AuthController extends Controller
 {
@@ -23,21 +23,14 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // التحقق من صحة البيانات
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-
-        // محاولة تسجيل الدخول
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            // إعادة التوجيه إلى الصفحة الرئيسية الموحدة
             return redirect()->intended('/');
         }
-
-        // إذا فشل تسجيل الدخول
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
@@ -54,17 +47,12 @@ class AuthController extends Controller
 
         return redirect('/login');
     }
-
-    // =========================================================================
-    // ⬇️ الدوال الجديدة المضافة للمشروع (التسجيل والتعليقات الآمنة) ⬇️
-    // =========================================================================
-
     /**
      * Show the registration form.
      */
     public function showRegisterForm()
     {
-        return view('register'); // يستدعي ملف register.blade.php
+        return view('register');
     }
 
     /**
@@ -72,21 +60,20 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // التحقق الصارم من المدخلات لمنع البيانات الضارة
+       
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed', // يفرض وجود حقل password_confirmation
+            'password' => 'required|string|min:8|confirmed', 
         ]);
 
-        // إنشاء الحساب وتشفير كلمة المرور تلقائياً لحمايتها في قاعدة البيانات
+       
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // تسجيل دخول المستخدم تلقائياً بعد نجاح التسجيل
         Auth::login($user);
 
         return redirect()->route('home')->with('success', 'Account created successfully! Welcome to IAMS.');
@@ -97,10 +84,10 @@ class AuthController extends Controller
      */
     public function showAboutPage()
     {
-        // جلب آخر التعليقات مع بيانات المستخدمين المرتبطين بها (Eager Loading لمنع مشكلة N+1)
+
         $comments = Comment::with('user')->latest()->get();
 
-        return view('welcome', compact('comments')); // يمرر التعليقات لصفحة welcome
+        return view('welcome', compact('comments')); 
     }
 
     /**
@@ -108,26 +95,19 @@ class AuthController extends Controller
      */
     public function storeComment(Request $request)
     {
-        // التحقق من المدخلات لمنع ثغرات الرفع العشوائي والـ DoS Attack
         $request->validate([
             'comment_text' => 'required|string|max:1000',
-            'attachment'   => 'nullable|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx|max:10240', // تقييد الامتدادات والحجم (2MB)
+            'attachment'   => 'nullable|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx|max:10240', 
         ]);
 
         $comment = new Comment();
         $comment->comment_text = $request->comment_text;
         $comment->user_id = Auth::id();
 
-        // معالجة رفع الملف بشكل آمن
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
-            
-            // توليد اسم عشوائي معقد للملف لمنع تخمين الأسماء أو التلاعب بها على السيرفر
             $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            
-            // التخزين في مجلد محمي مخصص للتعليقات داخل الـ Storage
             $path = $file->storeAs('comment_attachments', $fileName, 'public');
-            
             $comment->file_path = $path;
         }
 

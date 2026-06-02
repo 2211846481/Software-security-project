@@ -29,7 +29,6 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
         });
 
-        // 3. جدول الجلسات 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();

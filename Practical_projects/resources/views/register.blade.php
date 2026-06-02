@@ -1,7 +1,7 @@
 <html class="h-full light" data-kt-theme="true" data-kt-theme-mode="light" dir="ltr" lang="en" data-kt-theme-swtich-initialized="true" data-kt-theme-switch-mode="light">
 <head>
     <base href="../../">
-    <title>IAMS - Register</title>
+    <title>SNH - Register</title>
     <meta charset="utf-8">
     <meta content="follow, index" name="robots">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
