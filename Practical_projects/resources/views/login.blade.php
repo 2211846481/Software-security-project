@@ -33,7 +33,7 @@ Metronic - Tailwind CSS
 </head>
 <body class="antialiased flex items-center justify-center min-h-screen text-base text-foreground bg-background [--header-height:54px] [--sidebar-width:200px]" style="" data-kt-sticky-header="on" data-kt-sticky-sidebar="on">
 <script>
-const defaultThemeMode = 'light'; // light|dark|system
+const defaultThemeMode = 'light';
 let themeMode;
 
 if (document.documentElement) {

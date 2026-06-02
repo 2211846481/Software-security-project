@@ -47,8 +47,6 @@
                 Create an Account
             </h3>
         </div>
-
-        {{-- الاسم الكامل --}}
         <div class="flex flex-col gap-1">
             <label class="kt-form-label font-normal text-mono">Full Name</label>
             <input class="kt-input" placeholder="Your Name" type="text" name="name" value="{{ old('name') }}">
@@ -56,8 +54,6 @@
                 <span class="text-destructive text-sm mt-1">{{ $message }}</span>
             @enderror
         </div>
-
-        {{-- البريد الإلكتروني --}}
         <div class="flex flex-col gap-1">
             <label class="kt-form-label font-normal text-mono">Email</label>
             <input class="kt-input" placeholder="email@email.com" type="text" name="email" value="{{ old('email') }}">
@@ -65,8 +61,6 @@
                 <span class="text-destructive text-sm mt-1">{{ $message }}</span>
             @enderror
         </div>
-
-        {{-- كلمة المرور --}}
         <div class="flex flex-col gap-1">
             <label class="kt-form-label font-normal text-mono">Password</label>
             <div class="kt-input" data-kt-toggle-password="true" data-kt-toggle-password-initialized="true">
@@ -79,8 +73,6 @@
                 <span class="text-destructive text-sm mt-1">{{ $message }}</span>
             @enderror
         </div>
-
-        {{-- تأكيد كلمة المرور --}}
         <div class="flex flex-col gap-1">
             <label class="kt-form-label font-normal text-mono">Confirm Password</label>
             <div class="kt-input" data-kt-toggle-password="true" data-kt-toggle-password-initialized="true">
@@ -103,7 +95,6 @@
 </div>
 
 <script>
-    // إظهار/إخفاء كلمة المرور
     const passwordInput = document.getElementById('password');
     const togglePasswordBtn = document.getElementById('togglePassword');
     const toggleIcon = togglePasswordBtn.querySelector('i');
@@ -114,8 +105,6 @@
         toggleIcon.classList.toggle('ki-eye');
         toggleIcon.classList.toggle('ki-eye-slash');
     });
-
-    // إظهار/إخفاء تأكيد كلمة المرور
     const passwordConfirmInput = document.getElementById('password_confirmation');
     const togglePasswordConfirmBtn = document.getElementById('togglePasswordConfirm');
     const toggleIconConfirm = togglePasswordConfirmBtn.querySelector('i');
@@ -126,8 +115,6 @@
         toggleIconConfirm.classList.toggle('ki-eye');
         toggleIconConfirm.classList.toggle('ki-eye-slash');
     });
-
-    // إخفاء الأخطاء عند الكتابة
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById('register_form');
 

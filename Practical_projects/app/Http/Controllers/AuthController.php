@@ -76,7 +76,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Account created successfully! Welcome to IAMS.');
+        return redirect()->route('home')->with('success', 'Account created successfully! Welcome to SNH.');
     }
 
     /**

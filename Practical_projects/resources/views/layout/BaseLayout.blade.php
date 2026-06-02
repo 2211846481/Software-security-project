@@ -77,7 +77,7 @@
                 data-kt-menu-item-toggle="dropdown"
                 data-kt-menu-item-trigger="hover">
                 <button class="kt-menu-toggle text-mono text-sm font-medium">
-                  MetronicTeam
+                  SNH Team
                   <span class="kt-menu-arrow"></span>
                 </button>
               </div>
@@ -108,8 +108,6 @@
             </div>
 
             <div class="kt-dropdown-menu w-[250px]" data-kt-dropdown-menu="true">
-
-              {{-- ✅ تم الإصلاح: فصل @auth و @guest بشكل صحيح --}}
               @auth
                 <div class="flex items-center justify-between px-2.5 py-1.5 gap-1.5">
                   <div class="flex items-center gap-2">
@@ -131,16 +129,14 @@
                     </span>
                     <input class="kt-switch" data-kt-theme-switch-state="dark" data-kt-theme-switch-toggle="true" name="check" type="checkbox" value="1">
                   </div>
-
-                  {{-- زر تسجيل الخروج --}}
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="kt-btn kt-btn-outline justify-center w-full">Log out</button>
                   </form>
                 </div>
-              @endauth {{-- ✅ إغلاق @auth --}}
+              @endauth 
 
-              @guest {{-- ✅ فتح @guest بشكل مستقل --}}
+              @guest 
                 <div class="flex items-center justify-between px-2.5 py-1.5 gap-1.5">
                   <div class="flex items-center gap-2">
                     <div class="rounded-full size-9 shrink-0 bg-secondary/20 flex items-center justify-center text-secondary font-semibold text-sm">
@@ -165,7 +161,7 @@
                   <a class="kt-btn kt-btn-outline justify-center w-full" href="/login">Log in</a>
                   <a class="kt-btn bg-prime text-white justify-center w-full mt-2" href="/register">Register</a>
                 </div>
-              @endguest {{-- ✅ إغلاق @guest --}}
+              @endguest 
 
             </div>
           </div>
@@ -185,13 +181,10 @@
               <div class="kt-menu-item py-3.5 border-b border-transparent kt-menu-item-active:border-b-mono kt-menu-item-here:border-b-mono">
                 <a class="kt-menu-link gap-2.5" href="/">
                   <span class="kt-menu-title text-nowrap font-medium text-sm text-secondary-foreground kt-menu-item-active:text-mono kt-menu-item-active:font-medium kt-menu-link-hover:text-mono">
-                    Home/About IAMS
+                    Home/About SNH
                   </span>
                 </a>
               </div>
-
-              {{-- ✅ تم حذف @endif و @endauth اليتيمتين --}}
-
             </div>
           </div>
         </div>
@@ -236,7 +229,7 @@
         <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-3 py-5">
           <div class="flex order-2 md:order-1 gap-2 font-normal text-sm">
             <span class="text-muted-foreground">2026©</span>
-            <a class="text-secondary-foreground hover:text-primary" href="/">Team RED.</a>
+            <a class="text-secondary-foreground hover:text-primary" href="/">Team SNH.</a>
           </div>
         </div>
       </div>

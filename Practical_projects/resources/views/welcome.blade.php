@@ -2,8 +2,6 @@
 @section('content')
 
 <div class="kt-container-fluid py-8 flex flex-col items-center">
-
-    {{-- ===== القسم العلوي: الصور والترحيب ===== --}}
     <div class="flex flex-col items-center text-center mb-10">
         <div class="mb-6">
             <img alt="image" class="dark:hidden max-h-[140px]" src="assets/media/illustrations/21.svg">
@@ -20,40 +18,31 @@
         @endauth
 
         @guest
-            <h1 class="text-2xl font-bold text-mono mb-3">Welcome to IAMS</h1>
+            <h1 class="text-2xl font-bold text-mono mb-3">Welcome to SNH</h1>
             <p class="text-sm text-secondary-foreground max-w-xl mb-4">
                 We're thrilled to have you on board! Explore our secure environment.
             </p>
         @endguest
     </div>
-
-    {{-- ===== القسم الأوسط: التعريف بالنظام ===== --}}
     <div class="w-full max-w-3xl bg-card border border-border rounded-xl p-6 mb-12 text-center shadow-xs">
-        <h2 class="text-lg font-semibold text-mono mb-3">About The IAMS Project</h2>
+        <h2 class="text-lg font-semibold text-mono mb-3">About The SNH Project</h2>
         <p class="text-sm text-secondary-foreground leading-relaxed">
-            IAMS is a secure web application built as part of the <strong>Secure Programming</strong> course.
+            SNH is a secure web application built as part of the Secure Programming course.
             The system demonstrates real-world enterprise security practices including strict protection against
-            <strong>XSS, SQL Injection, Cross-Site Request Forgery (CSRF)</strong>, and <strong>Secure File Upload attacks</strong>.
+            XSS, SQL Injection, Cross-Site Request Forgery (CSRF), and Secure File Upload attacks.
         </p>
     </div>
-
-    {{-- ===== القسم السفلي: نظام التعليقات ===== --}}
     <div class="grid lg:grid-cols-2 gap-8 items-start w-full max-w-6xl">
-
-        {{-- === فورم إضافة تعليق === --}}
         <div class="kt-card p-6 border border-border rounded-xl">
             <h3 class="text-base font-semibold text-mono mb-5">Leave a Comment</h3>
 
             @auth
-                {{-- رسالة النجاح --}}
                 @if(session('success'))
                     <div class="mb-4 px-4 py-3 rounded-lg bg-green-100 text-green-700 text-sm border border-green-200 flex items-center gap-2">
                         <i class="ki-filled ki-check-circle text-green-600"></i>
                         {{ session('success') }}
                     </div>
                 @endif
-
-                {{-- رسائل الأخطاء --}}
                 @if($errors->any())
                     <div class="mb-4 px-4 py-3 rounded-lg bg-red-100 text-red-700 text-sm border border-red-200">
                         <ul class="list-disc list-inside space-y-0.5">
@@ -63,8 +52,6 @@
                         </ul>
                     </div>
                 @endif
-
-                {{-- بطاقة هوية المستخدم فوق النموذج --}}
                 <div class="flex items-center gap-3 mb-5 px-3 py-2.5 rounded-lg bg-muted/40 border border-border">
                     <div class="rounded-full size-9 bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm shrink-0">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -77,8 +64,6 @@
 
                 <form method="POST" action="{{ route('comments.store') }}" enctype="multipart/form-data" class="flex flex-col gap-4">
                     @csrf
-
-                    {{-- حقل التعليق --}}
                     <div class="flex flex-col gap-1.5">
                         <label class="text-sm font-medium text-foreground">
                             Your Comment <span class="text-red-500">*</span>
@@ -88,24 +73,19 @@
                             id="comment_text"
                             rows="4"
                             maxlength="1000"
-                            placeholder="Write your feedback about IAMS..."
+                            placeholder="Write your feedback about SNH..."
                             class="kt-input resize-none border border-border rounded-md p-2 text-sm"
                             required
                         >{{ old('comment_text') }}</textarea>
-                        {{-- عداد الحروف --}}
                         <div class="flex justify-end">
                             <span id="char-count" class="text-xs text-muted-foreground">0 / 1000</span>
                         </div>
                     </div>
-
-                    {{-- حقل رفع الملف --}}
                     <div class="flex flex-col gap-1.5">
                         <label class="text-sm font-medium text-foreground">
                             Attach File
                             <span class="text-xs text-muted-foreground font-normal">(optional — image, PDF, or Word)</span>
                         </label>
-
-                        {{-- منطقة رفع مخصصة --}}
                         <label for="attachment"
                                class="flex items-center gap-3 border border-dashed border-border rounded-md px-4 py-3 cursor-pointer bg-muted/20 hover:bg-muted/40 transition-colors group">
                             <i class="ki-filled ki-upload text-xl text-muted-foreground group-hover:text-primary transition-colors"></i>
@@ -130,7 +110,6 @@
                 </form>
 
             @else
-                {{-- غير مسجل الدخول --}}
                 <div class="flex flex-col items-center gap-4 py-6 text-center">
                     <i class="ki-filled ki-lock text-4xl text-muted-foreground"></i>
                     <p class="text-sm text-secondary-foreground">
@@ -143,8 +122,6 @@
                 </div>
             @endauth
         </div>
-
-        {{-- === لوحة عرض التعليقات === --}}
         <div class="kt-card p-6 border border-border rounded-xl">
             <h3 class="text-base font-semibold text-mono mb-5">
                 Community Feedback
@@ -160,15 +137,11 @@
                 <div class="flex flex-col gap-4 max-h-[420px] overflow-y-auto pr-1">
                     @foreach($comments as $comment)
                         <div class="flex gap-3 pb-4 border-b border-border last:border-0">
-
-                            {{-- أفاتار المستخدم --}}
                             <div class="rounded-full size-9 shrink-0 bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm">
                                 {{ strtoupper(substr($comment->user->name ?? 'U', 0, 1)) }}
                             </div>
 
                             <div class="flex flex-col gap-1 flex-1 min-w-0">
-
-                                {{-- اسم المستخدم والوقت --}}
                                 <div class="flex items-center justify-between gap-2">
                                     <span class="text-sm font-semibold text-foreground">
                                         {{ $comment->user->name }}
@@ -177,13 +150,9 @@
                                         {{ $comment->created_at->diffForHumans() }}
                                     </span>
                                 </div>
-
-                                {{-- نص التعليق --}}
                                 <p class="text-sm text-secondary-foreground break-words">
                                     {{ e($comment->comment_text) }}
                                 </p>
-
-                                {{-- عرض المرفق بحسب نوعه --}}
                                 @if($comment->file_path)
                                     @php
                                         $ext = strtolower(pathinfo($comment->file_path, PATHINFO_EXTENSION));
@@ -195,7 +164,7 @@
                                     @endphp
 
                                     @if($isImage)
-                                        {{-- عرض الصورة مباشرة --}}
+                                        
                                         <img
                                             src="{{ $fileUrl }}"
                                             alt="Attached image"
@@ -203,7 +172,6 @@
                                         >
 
                                     @elseif($isPdf)
-                                        {{-- بطاقة PDF --}}
                                         <a href="{{ $fileUrl }}"
                                            target="_blank"
                                            rel="noopener noreferrer"
@@ -217,7 +185,6 @@
                                         </a>
 
                                     @elseif($isWord)
-                                        {{-- بطاقة Word --}}
                                         <a href="{{ $fileUrl }}"
                                            target="_blank"
                                            rel="noopener noreferrer"
@@ -231,7 +198,6 @@
                                         </a>
 
                                     @else
-                                        {{-- أي نوع آخر --}}
                                         <a href="{{ $fileUrl }}"
                                            target="_blank"
                                            rel="noopener noreferrer"
@@ -258,7 +224,7 @@
 
 {{-- ===== JavaScript ===== --}}
 <script>
-    // عداد الحروف في حقل التعليق
+    
     const textarea = document.getElementById('comment_text');
     const charCount = document.getElementById('char-count');
 
@@ -274,7 +240,6 @@
         update();
     }
 
-    // تحديث تسمية حقل الملف عند الاختيار
     function updateFileLabel(input) {
         const label = document.getElementById('file-label');
         if (!label) return;
