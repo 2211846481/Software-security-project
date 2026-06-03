@@ -59,6 +59,12 @@ document.documentElement.classList.add(themeMode);
 <form action="{{ route('login.post') }}" class="kt-card-content flex flex-col gap-5 p-10 " id="sign_in_form" method="POST">
     @csrf
     
+    @if ($errors->has('throttle'))
+        <div id="throttle_alert" class="kt-alert kt-alert-danger text-destructive text-sm p-3 border border-destructive/20 bg-destructive/10 rounded-md mb-2">
+            {{ $errors->first('throttle') }}
+        </div>
+    @endif
+    
     @if(session('error'))
         <div class="kt-alert kt-alert-danger mb-4">
             {{ session('error') }}
@@ -95,7 +101,7 @@ document.documentElement.classList.add(themeMode);
         </div>
     </div>
     
-    <button class="kt-btn bg-prime text-white flex justify-center grow" type="submit">
+    <button id="login_btn" class="kt-btn bg-prime text-white flex justify-center grow" type="submit">
         Login
     </button>
 
@@ -125,13 +131,20 @@ document.documentElement.classList.add(themeMode);
         }
     });
 
-
-    
     document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById('sign_in_form');
+    const loginBtn = document.getElementById('login_btn');
+    const throttleAlert = document.getElementById('throttle_alert');
 
+    if (throttleAlert) {
+        loginBtn.style.display = 'none';
+        setTimeout(() => {
+            loginBtn.style.display = 'flex'; 
+            throttleAlert.remove();       
+        }, 60000); 
+    }
     const hideSessionError = () => {
-        const sessionError = form.querySelector('.kt-alert-danger');
+        const sessionError = form.querySelector('.kt-alert-danger:not(#throttle_alert)');
         if (sessionError) {
             sessionError.remove();
         }
@@ -151,6 +164,5 @@ document.documentElement.classList.add(themeMode);
         });
     });
 });
-
 </script>
 </html>
