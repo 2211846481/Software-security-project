@@ -26,3 +26,4 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
     })->create();
+    header_remove('X-Powered-By');

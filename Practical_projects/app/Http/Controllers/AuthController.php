@@ -95,6 +95,9 @@ class AuthController extends Controller
      */
     public function storeComment(Request $request)
     {
+        // 1. حماية المعالج: ضبط حد أقصى للزمن قبل البدء بأي معالجة
+        set_time_limit(30);
+
         $request->validate([
             'comment_text' => 'required|string|max:1000',
             'attachment'   => 'nullable|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx|max:10240', 
@@ -106,6 +109,22 @@ class AuthController extends Controller
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
+
+            // 2. التحقق من "بصمة الملف" (Magic Bytes)
+            $finfo = new \finfo(FILEINFO_MIME_TYPE);
+            $mime = $finfo->file($file->getPathname());
+
+            // قائمة مسموحة بـ MIME Types الحقيقية (وليس الامتداد فقط)
+            $allowedMimes = [
+                'image/jpeg', 'image/png', 'image/gif', 'image/webp', 
+                'application/pdf', 'application/msword', 
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ];
+
+            if (!in_array($mime, $allowedMimes)) {
+                return back()->withErrors(['attachment' => 'Invalid file content detected.']);
+            }
+
             $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('comment_attachments', $fileName, 'public');
             $comment->file_path = $path;
@@ -115,4 +134,6 @@ class AuthController extends Controller
 
         return redirect()->back()->with('success', 'Thank you! Your comment has been posted.');
     }
+
+    
 }
