@@ -97,6 +97,10 @@ class AuthController extends Controller
     {
         set_time_limit(30);
 
+
+        if ($request->hasFile('attachment') && $request->file('attachment')->getSize() > 2 * 1024 * 1024) {
+            return back()->withErrors(['attachment' => 'File size must not exceed 2MB.'])->withInput();
+        }
         $request->validate([
             'comment_text' => 'required|string|max:1000',
             'attachment'   => 'nullable|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx|max:2048', 

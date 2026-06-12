@@ -15,7 +15,7 @@ class SecurityHeaders
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'geolocation=(), microphone=()');
-        $response->headers->set('Content-Security-Policy', "default-src 'self' 'unsafe-inline' fonts.googleapis.com fonts.gstatic.com");
+        $response->headers->set('Content-Security-Policy', "default-src 'self' 'unsafe-inline' 'unsafe-eval' fonts.googleapis.com fonts.gstatic.com");
         return $response;
     }
 }
