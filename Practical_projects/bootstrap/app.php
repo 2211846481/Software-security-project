@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (PostTooLargeException $e, Request $request) {
             return redirect()->back()
-                ->withErrors(['attachment' => 'The uploaded file is too large for the server. Please upload a smaller file (Max: 10MB).'])
+                ->withErrors(['attachment' => 'The uploaded file is too large for the server. Please upload a smaller file (Max: 2MB).'])
                 ->withInput();
         });
 

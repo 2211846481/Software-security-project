@@ -99,7 +99,7 @@ class AuthController extends Controller
 
         $request->validate([
             'comment_text' => 'required|string|max:1000',
-            'attachment'   => 'nullable|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx|max:10240', 
+            'attachment'   => 'nullable|mimes:jpeg,png,jpg,gif,webp,pdf,doc,docx|max:2048', 
         ]);
 
         $comment = new Comment();
