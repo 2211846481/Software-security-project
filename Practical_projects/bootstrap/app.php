@@ -12,11 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
+    ->withMiddleware(function (Middleware $middleware) {
         
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckUserRole::class,
         ]);
+    
+        
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (PostTooLargeException $e, Request $request) {
@@ -27,3 +30,4 @@ return Application::configure(basePath: dirname(__DIR__))
 
     })->create();
     header_remove('X-Powered-By');
+    

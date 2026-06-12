@@ -95,7 +95,6 @@ class AuthController extends Controller
      */
     public function storeComment(Request $request)
     {
-        // 1. حماية المعالج: ضبط حد أقصى للزمن قبل البدء بأي معالجة
         set_time_limit(30);
 
         $request->validate([
@@ -109,12 +108,8 @@ class AuthController extends Controller
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
-
-            // 2. التحقق من "بصمة الملف" (Magic Bytes)
             $finfo = new \finfo(FILEINFO_MIME_TYPE);
             $mime = $finfo->file($file->getPathname());
-
-            // قائمة مسموحة بـ MIME Types الحقيقية (وليس الامتداد فقط)
             $allowedMimes = [
                 'image/jpeg', 'image/png', 'image/gif', 'image/webp', 
                 'application/pdf', 'application/msword', 
