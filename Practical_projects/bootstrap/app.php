@@ -12,17 +12,22 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
+    ->withMiddleware(function (Middleware $middleware) {
         
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckUserRole::class,
         ]);
+    
+        
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (PostTooLargeException $e, Request $request) {
             return redirect()->back()
-                ->withErrors(['attachment' => 'The uploaded file is too large for the server. Please upload a smaller file (Max: 10MB).'])
+                ->withErrors(['attachment' => 'The uploaded file is too large for the server. Please upload a smaller file (Max: 2MB).'])
                 ->withInput();
         });
 
     })->create();
+    header_remove('X-Powered-By');
+    

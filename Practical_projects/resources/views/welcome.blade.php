@@ -102,6 +102,7 @@
                             class="hidden"
                             onchange="updateFileLabel(this)"
                         >
+                    <span id="file-error" class="text-destructive text-sm mt-1 hidden"></span>
                     </div>
 
                     <button type="submit" class="kt-btn bg-prime text-white justify-center py-2.5 rounded-md font-medium mt-1">
@@ -196,7 +197,7 @@
                                             </div>
                                             <i class="ki-filled ki-arrow-right text-muted-foreground text-sm group-hover:text-blue-500 transition-colors shrink-0"></i>
                                         </a>
-
+                                        
                                     @else
                                         <a href="{{ $fileUrl }}"
                                            target="_blank"
@@ -211,7 +212,7 @@
                                         </a>
                                     @endif
                                 @endif
-
+                                
                             </div>
                         </div>
                     @endforeach
@@ -239,16 +240,29 @@
         textarea.addEventListener('input', update);
         update();
     }
-
     function updateFileLabel(input) {
-        const label = document.getElementById('file-label');
-        if (!label) return;
-        if (input.files && input.files.length > 0) {
-            label.textContent = input.files[0].name;
-        } else {
+    const label = document.getElementById('file-label');
+    const errorSpan = document.getElementById('file-error');
+    if (!label) return;
+    
+    if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        
+        if (file.size > maxSize) {
+            errorSpan.textContent = 'File size must not exceed 2MB.';
+            errorSpan.classList.remove('hidden');
+            input.value = '';
             label.textContent = 'Click to upload a file';
+            return;
         }
+        
+        errorSpan.classList.add('hidden');
+        label.textContent = file.name;
+    } else {
+        label.textContent = 'Click to upload a file';
     }
+}
 </script>
 
 @endsection
